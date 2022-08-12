@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  title     String    @unique @db.VarChar(255)
+  Product   Product[]
+}
+
+model Image {
+  id         String @id @default(cuid())
+  publicId   String @unique
+  secure_url String @unique
+  url        String @unique
+  format     String
+  version    String
+  name       String
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  title       String   @db.VarChar(255)
+  imageUrl    String   @db.Text
+  price       Decimal  @db.Decimal(12, 2)
+  description String?
+  stock       Boolean  @default(true)
+  active      Boolean  @default(false)
+  count       Int      @default(0)
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  store       Store?   @relation(fields: [storeId], references: [id])
+  storeId     Int?
+}
+
+model Address {
+  id      Int    @id @default(autoincrement())
+  street  String @db.VarChar(255)
+  number  Int
+  city    String @db.VarChar(255)
+  country String @db.VarChar(255)
+  user    User   @relation(fields: [userId], references: [id])
+  userId  Int    @unique
+}
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int     @unique
+}
+
+model User {
+  id              Int       @id @default(autoincrement())
+  email           String    @unique
+  name            String?
+  role            Role
+  profile         Profile?
+  store           Store?
+  deliveryAddress Address[]
+}
+
+model Store {
+  id       Int       @id @default(autoincrement())
+  user     User      @relation(fields: [userId], references: [id])
+  userId   Int       @unique
+  products Product[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
