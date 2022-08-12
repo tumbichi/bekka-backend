@@ -2,7 +2,9 @@ import app from "./app";
 import { prisma } from "./db";
 
 async function main() {
-  app.listen(8080);
+  app.listen(8080, () => {
+    console.log("Running on port 8080");
+  });
 }
 
 main()
@@ -14,3 +16,5 @@ main()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+module.exports = app;
