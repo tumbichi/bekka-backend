@@ -90,5 +90,7 @@ export const getAllProduct = async (req: Request, res: Response) => {
   try {
     const products = await prisma.product.findMany();
     return res.status(200).json(products);
-  } catch (e) {}
+  } catch (e) {
+    return res.status(500).json(e);
+  }
 };

@@ -3,7 +3,7 @@ import { prisma } from "./db";
 
 async function main() {
   app.listen(process.env.PORT || 8080, () => {
-    console.log("Running on port 8080");
+    console.log(`Running on port ${process.env.PORT || 8080}`);
   });
 }
 

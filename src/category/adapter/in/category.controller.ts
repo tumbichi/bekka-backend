@@ -8,12 +8,15 @@ export const createCategory = async (req: Request, res: Response) => {
     return res.status(400).send("Category not valid");
   }
 
-  const existingCategory = await prisma.category.findUnique({
-    where: { title },
-  });
-
-  if (existingCategory) {
-    return res.status(404).send("Category already exists");
+  try {
+    const existingCategory = await prisma.category.findUnique({
+      where: { title },
+    });
+    if (existingCategory) {
+      return res.status(404).send("Category already exists");
+    }
+  } catch (e) {
+    console.log("error", e);
   }
 
   try {
