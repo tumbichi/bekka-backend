@@ -5,8 +5,6 @@ import { deleteImageToCloudinary } from "../../../image/adapter/out/cloudinary.a
 
 export const createProduct = async (req: Request, res: Response) => {
   const { title, description, price, categoryId, storeId, imageUrl } = req.body;
-  // console.log("req.body", req.body);
-  // console.log('req.file', req.file)
 
   if (!title || title.length < 2) {
     return res.status(400).send("Product not valid");
@@ -20,12 +18,15 @@ export const createProduct = async (req: Request, res: Response) => {
     return res.status(400).send("Category not valid");
   }
 
-  const existingCategory = await prisma.category.findUnique({
-    where: { id: categoryId },
-  });
-
-  if (!existingCategory) {
-    return res.status(400).send("Category not valid");
+  try {
+    const existingCategory = await prisma.category.findUnique({
+      where: { id: categoryId },
+    });
+    if (!existingCategory) {
+      return res.status(400).send("Category not valid");
+    }
+  } catch (e) {
+    return res.status(500).json(e);
   }
 
   try {
@@ -49,8 +50,6 @@ export const createProduct = async (req: Request, res: Response) => {
 export const deleteProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  console.log("req.params", req.params);
-
   const product = await prisma.product.findUnique({
     where: { id: Number.parseInt(id) },
   });
@@ -62,7 +61,6 @@ export const deleteProduct = async (req: Request, res: Response) => {
   });
 
   if (image) {
-    // axios.delete("/images")
     try {
       await deleteImageToCloudinary(image.publicId);
       const imageDeleted = await prisma.image.delete({
@@ -83,6 +81,43 @@ export const deleteProduct = async (req: Request, res: Response) => {
   } catch (e) {
     console.log("product delete error", e);
     return res.status(404).send("Product doesn't exists");
+  }
+};
+
+export const updateProduct = async (req: Request, res: Response) => {
+  const { id, title, description, price, categoryId, storeId, imageUrl } =
+    req.body;
+
+  try {
+    const updatedProduct = await prisma.product.update({
+      data: {
+        title,
+        description,
+        price,
+        categoryId,
+        storeId,
+        imageUrl,
+      },
+      where: { id },
+    });
+
+    return res.status(200).json(updatedProduct);
+  } catch (e) {
+    console.log("updated product error", e);
+    return res.status(500).json(e);
+  }
+};
+
+export const getProductById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const productFinded = await prisma.product.findUniqueOrThrow({
+      where: { id: Number.parseInt(id) },
+    });
+    return res.status(200).json(productFinded);
+  } catch (e) {
+    return res.status(404).json(e);
   }
 };
 
