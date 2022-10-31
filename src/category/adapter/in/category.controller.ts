@@ -74,7 +74,9 @@ export const getCategoryById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const categories = await prisma.category.findUnique({ where: { id } });
+    const categories = await prisma.category.findUnique({
+      where: { id: Number.parseInt(id) },
+    });
     return res.status(200).json(categories);
   } catch (e) {
     return res.status(500).json(e);

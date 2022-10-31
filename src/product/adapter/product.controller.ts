@@ -1,9 +1,24 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { prisma } from "../../../db";
-import { deleteImageToCloudinary } from "../../../image/adapter/out/cloudinary.adapter";
+import { prisma } from "../../db";
+import { deleteImageToCloudinary } from "../../image/adapter/out/cloudinary.adapter";
+import ProductAdapter from "./product.repository";
 
-export const createProduct = async (req: Request, res: Response) => {
+interface CreateProductBody {
+  title: string;
+  description: string;
+  price: number;
+  categoryId: number;
+  storeId: number;
+  imageUrl: string;
+}
+
+const productAdapter = new ProductAdapter();
+
+export const createProduct = async (
+  req: Request<any, any, CreateProductBody>,
+  res: Response
+) => {
   const { title, description, price, categoryId, storeId, imageUrl } = req.body;
 
   if (!title || title.length < 2) {
@@ -14,7 +29,7 @@ export const createProduct = async (req: Request, res: Response) => {
     return res.status(400).send("price not valid");
   }
 
-  if (!categoryId) {
+  if (!categoryId || typeof categoryId !== "number") {
     return res.status(400).send("Category not valid");
   }
 
@@ -26,7 +41,10 @@ export const createProduct = async (req: Request, res: Response) => {
       return res.status(400).send("Category not valid");
     }
   } catch (e) {
-    return res.status(500).json(e);
+    return res.status(500).json({
+      message: "Error when try know if category exists",
+      error: e,
+    });
   }
 
   try {
@@ -124,6 +142,16 @@ export const getProductById = async (req: Request, res: Response) => {
 export const getAllProduct = async (req: Request, res: Response) => {
   try {
     const products = await prisma.product.findMany();
+    return res.status(200).json(products);
+  } catch (e) {
+    return res.status(500).json(e);
+  }
+};
+
+export const getAllProductOnStock = async (req: Request, res: Response) => {
+  try {
+    const products = await productAdapter.getProductsOnStock();
+
     return res.status(200).json(products);
   } catch (e) {
     return res.status(500).json(e);
