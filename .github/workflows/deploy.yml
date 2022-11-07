@@ -1,14 +1,11 @@
 name: Deploy CI
 
 on:
-  workflow_run:
-    workflows: Build CI
-    types:
-      - completed
+  push:
+    branches: [main]
 
 jobs:
   deploy:
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
