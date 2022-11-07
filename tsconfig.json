@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2020", /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "module": "commonjs", /* Specify what module code is generated. */
-    "rootDir": "./", /* Specify the root folder within your source files. */
+    "rootDir": "./src", /* Specify the root folder within your source files. */
     "sourceMap": true, /* Create source map files for emitted JavaScript files. */
     "outDir": "dist", /* Specify an output folder for all emitted files. */
     "esModuleInterop": true, /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */
@@ -12,7 +12,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "__tests__/**/*.ts",
   ],
   "exclude": [
     "node_modules"
