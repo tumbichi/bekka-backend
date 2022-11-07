@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --files src/index.ts",
     "build": "tsc",
+    "dev": "ts-node-dev --respawn --files src/index.ts",
+    "lint": "eslint src/**/*.ts",
+    "prettier": "prettier 'src/**/*.ts'",
+    "lint:fix": "eslint --fix src/**/*.ts",
+    "prettier:fix": "prettier --write 'src/**/*.ts'",
+    "lint:ci": "npm run lint $(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep  -E \"(.js$|.jsx$|.ts$|.tsx$)\") --quiet",
+    "prettier:ci": "prettier --check $(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep  -E \"(.js$|.jsx$|.ts$|.tsx$)\")",
     "start": "node dist/index.js",
     "web": "node dist/index.js"
   },
@@ -28,6 +34,12 @@
     "@types/formidable": "^2.0.5",
     "@types/morgan": "1.9.3",
     "@types/node": "17.0.23",
+    "@typescript-eslint/eslint-plugin": "^5.42.0",
+    "@typescript-eslint/parser": "^5.42.0",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "prettier": "^2.7.1",
     "prisma": "4.2.1",
     "ts-node-dev": "2.0.0",
     "typescript": "4.7.4"
