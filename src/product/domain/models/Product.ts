@@ -1,4 +1,4 @@
-import Category from "../../../category/domain/models/Category";
+import Category from '../../../category/domain/models/Category';
 
 class Product {
   id: number;
@@ -21,7 +21,7 @@ class Product {
     active: boolean,
     count: number,
     category: Category,
-    description?: string
+    description?: string,
   ) {
     this.id = id;
     this.title = title;
