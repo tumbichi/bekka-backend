@@ -1,8 +1,7 @@
-import axios from "axios";
-import { Request, Response } from "express";
-import { prisma } from "../../db";
-import { deleteImageToCloudinary } from "../../image/adapter/out/cloudinary.adapter";
-import ProductAdapter from "./product.repository";
+import { Request, Response } from 'express';
+import { prisma } from '../../db';
+import { deleteImageToCloudinary } from '../../image/adapter/out/cloudinary.adapter';
+import ProductAdapter from './product.repository';
 
 interface CreateProductBody {
   title: string;
@@ -15,22 +14,19 @@ interface CreateProductBody {
 
 const productAdapter = new ProductAdapter();
 
-export const createProduct = async (
-  req: Request<any, any, CreateProductBody>,
-  res: Response
-) => {
+export const createProduct = async (req: Request<unknown, unknown, CreateProductBody>, res: Response) => {
   const { title, description, price, categoryId, storeId, imageUrl } = req.body;
 
   if (!title || title.length < 2) {
-    return res.status(400).send("Product not valid");
+    return res.status(400).send('Product not valid');
   }
 
   if (!price) {
-    return res.status(400).send("price not valid");
+    return res.status(400).send('price not valid');
   }
 
-  if (!categoryId || typeof categoryId !== "number") {
-    return res.status(400).send("Category not valid");
+  if (!categoryId || typeof categoryId !== 'number') {
+    return res.status(400).send('Category not valid');
   }
 
   try {
@@ -38,11 +34,11 @@ export const createProduct = async (
       where: { id: categoryId },
     });
     if (!existingCategory) {
-      return res.status(400).send("Category not valid");
+      return res.status(400).send('Category not valid');
     }
   } catch (e) {
     return res.status(500).json({
-      message: "Error when try know if category exists",
+      message: 'Error when try know if category exists',
       error: e,
     });
   }
@@ -60,7 +56,7 @@ export const createProduct = async (
     });
     return res.status(201).json(product);
   } catch (e) {
-    console.log("ProductCreateError", e);
+    console.error('ProductCreateError', e);
     res.status(500).json(e);
   }
 };
@@ -84,9 +80,9 @@ export const deleteProduct = async (req: Request, res: Response) => {
       const imageDeleted = await prisma.image.delete({
         where: { publicId: image.publicId },
       });
-      console.log("Image deleted: ", imageDeleted);
+      console.log('Image deleted: ', imageDeleted);
     } catch (e) {
-      console.error("delete image error", e);
+      console.error('delete image error', e);
     }
   }
 
@@ -94,17 +90,16 @@ export const deleteProduct = async (req: Request, res: Response) => {
     const productDeleted = await prisma.product.delete({
       where: { id: product.id },
     });
-    console.log("product delected", productDeleted);
+    console.log('product delected', productDeleted);
     return res.status(200).send(product);
   } catch (e) {
-    console.log("product delete error", e);
+    console.log('product delete error', e);
     return res.status(404).send("Product doesn't exists");
   }
 };
 
 export const updateProduct = async (req: Request, res: Response) => {
-  const { id, title, description, price, categoryId, storeId, imageUrl } =
-    req.body;
+  const { id, title, description, price, categoryId, storeId, imageUrl } = req.body;
 
   try {
     const updatedProduct = await prisma.product.update({
@@ -121,7 +116,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
     return res.status(200).json(updatedProduct);
   } catch (e) {
-    console.log("updated product error", e);
+    console.error('updated product error', e);
     return res.status(500).json(e);
   }
 };
