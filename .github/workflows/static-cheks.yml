@@ -1,0 +1,26 @@
+name: static-checks
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, unlocked]
+    branches:
+      - main
+      - develop
+
+permissions: read-all
+
+jobs:
+  static-test:
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18.3.0"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run lint:ci
+      - run: npm run prettier:ci
