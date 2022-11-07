@@ -2,7 +2,7 @@ name: Deploy CI
 
 on:
   workflow_run:
-    workflows: ["Build CI"]
+    workflows: ["Build CI", "build"]
     branches: ["develop"]
     types:
       - completed
