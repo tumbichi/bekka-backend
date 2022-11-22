@@ -5,7 +5,7 @@ import {
   getAllCategories,
   getCategoryById,
   updateCategory,
-} from '../category/adapter/in/category.controller';
+} from '../category/infrastructure/CategoryController';
 
 const router = Router();
 

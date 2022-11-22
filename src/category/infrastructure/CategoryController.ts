@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
-import { prisma } from '../../../db';
+import { prisma } from '../../db';
+import CategoryService from '../application/CategoryService';
+import CategoryRepository from './CategoryRepository';
+
+const categoryService = new CategoryService(new CategoryRepository());
 
 export const createCategory = async (req: Request, res: Response) => {
   const { title } = req.body;
@@ -63,7 +67,7 @@ export const deleteCategory = async (req: Request, res: Response) => {
 
 export const getAllCategories = async (req: Request, res: Response) => {
   try {
-    const categories = await prisma.category.findMany();
+    const categories = await categoryService.getAllCategories();
     return res.status(200).json(categories);
   } catch (e) {
     return res.status(500).json(e);
