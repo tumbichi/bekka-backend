@@ -1,7 +1,7 @@
 import Category from '../../../category/domain/models/Category';
+import Store from '../../../store/domain/models/Store';
 
 class Product {
-  id: number;
   title: string;
   imageUrl: string;
   price: number;
@@ -10,10 +10,10 @@ class Product {
   active: boolean;
   count: number;
   category: Category;
-  // store: Store;
+  store: Store;
+  id?: number;
 
   constructor(
-    id: number,
     title: string,
     imageUrl: string,
     price: number,
@@ -21,6 +21,8 @@ class Product {
     active: boolean,
     count: number,
     category: Category,
+    store: Store,
+    id?: number,
     description?: string,
   ) {
     this.id = id;
@@ -32,6 +34,7 @@ class Product {
     this.active = active;
     this.count = count;
     this.category = category;
+    this.store = store;
   }
 }
 

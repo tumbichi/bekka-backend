@@ -43,8 +43,8 @@ model Product {
   count       Int      @default(1)
   category    Category @relation(fields: [categoryId], references: [id])
   categoryId  Int
-  store       Store?   @relation(fields: [storeId], references: [id])
-  storeId     Int?
+  store       Store   @relation(fields: [storeId], references: [id])
+  storeId     Int
 }
 
 model Address {
