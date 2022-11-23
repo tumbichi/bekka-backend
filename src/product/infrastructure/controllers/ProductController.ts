@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
-import CategoryNotExistException from '../../../category/domain/exeptions/CategoryNotExistException';
 import { prisma } from '../../../db';
 import { deleteImageToCloudinary } from '../../../image/adapter/out/cloudinary.adapter';
 import ProductService from '../../application/ProductService';
-import Product from '../../domain/models/Product';
 import ProductCreationDTO from '../dto/ProductCreationDTO';
 
 export default class ProductController {
@@ -15,7 +13,7 @@ export default class ProductController {
 
   createProduct = (req: Request<unknown, unknown, ProductCreationDTO>, res: Response) => {
     const { title, description, price, categoryId, storeId, imageUrl } = req.body;
-    // let category;
+
     this.productService
       .createProduct({ title, description, price, categoryId, storeId, imageUrl })
       .then((product) => res.status(201).json(product))
@@ -95,26 +93,31 @@ export default class ProductController {
     }
   };
 
-  getProductById = async (req: Request, res: Response) => {
+  getProductById = (req: Request, res: Response) => {
     const { id } = req.params;
 
-    try {
-      const productFinded = await prisma.product.findUniqueOrThrow({
-        where: { id: Number.parseInt(id) },
+    this.productService
+      .getProductById(Number.parseInt(id))
+      .then((productFinded) => res.status(200).json(productFinded))
+      .catch((e) => {
+        switch (e.name) {
+          case 'ProductNotExistException':
+            return res.status(404).json({ message: e.message });
+          default: {
+            return res.status(500).json(e);
+          }
+        }
       });
-      return res.status(200).json(productFinded);
-    } catch (e) {
-      return res.status(404).json(e);
-    }
   };
 
-  getAllProduct = async (req: Request, res: Response) => {
-    try {
-      const products = await prisma.product.findMany();
-      return res.status(200).json(products);
-    } catch (e) {
-      return res.status(500).json(e);
-    }
+  getAllProduct = (req: Request, res: Response) => {
+    this.productService
+      .getAllProducts()
+      .then((products) => res.status(200).json(products))
+      .catch((e) => {
+        console.log('ErrorController_getAllProductOnStock', e);
+        return res.status(500).json(e);
+      });
   };
 
   getAllProductOnStock = (req: Request, res: Response) => {

@@ -9,6 +9,7 @@ import ProductRepositoryPort from './ProductRepositoryPort';
 import InvalidImageUrlException from '../domain/exeptions/InvalidImageUrlException';
 import validateUrl from '../../shared/validateUrl';
 import InvalidProductTitleException from '../domain/exeptions/InvalidProductTitleException';
+import ProductNotExistException from '../domain/exeptions/ProductNotExistException';
 
 const validateProductCreationDTO = (productDto: ProductCreationDTO) => {
   if (!productDto.title || productDto.title.length < 2) {
@@ -53,6 +54,7 @@ class ProductService {
   }
 
   createProduct = async (productDto: ProductCreationDTO): Promise<Product> => {
+    // if the validation fails throw with a business error
     validateProductCreationDTO(productDto);
 
     const category = await this.categoryService.getCategoryById(productDto.categoryId);
@@ -79,9 +81,25 @@ class ProductService {
     }
   };
 
+  getProductById = async (id: number): Promise<Product> => {
+    try {
+      return await this.productRepository.getProductById(id);
+    } catch (e) {
+      throw new ProductNotExistException();
+    }
+  };
+
   getProductsOnStock = async () => {
     try {
       return await this.productRepository.getProductsOnStock();
+    } catch (e) {
+      throw new Error('Error when try get products on stock');
+    }
+  };
+
+  getAllProducts = async () => {
+    try {
+      return await this.productRepository.getAllProducts();
     } catch (e) {
       throw new Error('Error when try get all products');
     }

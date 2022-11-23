@@ -55,7 +55,7 @@ class ProductRepository implements ProductRepositoryPort {
       return products;
     } catch (e) {
       // TODO: handle error
-      console.error('Error getProductsOnStock', e);
+      console.error('ErrorRepository_getProductsOnStock', e);
       throw e;
     }
   }
@@ -63,6 +63,57 @@ class ProductRepository implements ProductRepositoryPort {
   async editProduct(product: Partial<Product>): Promise<Product> {
     console.log('product :>> ', product);
     return Promise.resolve({} as Product);
+  }
+
+  async getAllProducts(): Promise<Product[]> {
+    try {
+      const productsEntity = await this.productRepository.findMany({
+        include: { category: true, store: true },
+      });
+
+      const products = await Promise.all(
+        productsEntity.map(async (productEntity): Promise<Product> => {
+          return parseProductEntityToDomain({
+            ...productEntity,
+            category: productEntity.category,
+            store: productEntity.store,
+          });
+        }),
+      );
+
+      return products;
+    } catch (e) {
+      console.error('ErrorRepository_getProducts', e);
+      throw e;
+    }
+  }
+
+  async deleteProductById(id: number): Promise<Product> {
+    try {
+      const productDeleted = await this.productRepository.delete({
+        where: { id },
+        include: { category: true, store: true },
+      });
+
+      return parseProductEntityToDomain(productDeleted);
+    } catch (e) {
+      console.error('ErrorRepository_deleteProductById', e);
+      throw e;
+    }
+  }
+
+  async getProductById(id: number): Promise<Product> {
+    try {
+      const productEntity = await this.productRepository.findUniqueOrThrow({
+        where: { id },
+        include: { category: true, store: true },
+      });
+
+      return parseProductEntityToDomain(productEntity);
+    } catch (e) {
+      console.error('ErrorRepository_getProductById', e);
+      throw e;
+    }
   }
 }
 
