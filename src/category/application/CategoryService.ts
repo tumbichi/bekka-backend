@@ -1,11 +1,11 @@
 import CategoryNotExistException from '../domain/exeptions/CategoryNotExistException';
 import Category from '../domain/models/Category';
-import CategoryRepositoryPort from './CategoryRepositoryPort';
+import CategoryRepository from './CategoryRepository';
 
 export default class CategoryService {
-  readonly categoryRepository: CategoryRepositoryPort;
+  private readonly categoryRepository: CategoryRepository;
 
-  constructor(categoryRepository: CategoryRepositoryPort) {
+  constructor(categoryRepository: CategoryRepository) {
     this.categoryRepository = categoryRepository;
   }
 

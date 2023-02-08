@@ -1,8 +1,8 @@
 import { prisma, StoreEntity } from '../../db';
-import StoreRepositoryPort from '../application/StoreRepositoryPort';
+import StoreRepository from '../application/StoreRepository';
 import Store from '../domain/models/Store';
 
-export default class StoreRepository implements StoreRepositoryPort {
+export default class StoreDataSource implements StoreRepository {
   private storeRepository = prisma.store;
 
   async getStoreById(id: number): Promise<Store> {

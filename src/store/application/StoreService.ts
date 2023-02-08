@@ -1,6 +1,6 @@
 import StoreNotExistException from '../../product/domain/exeptions/StoreNotExistException';
 import Store from '../domain/models/Store';
-import StoreRepositoryPort from './StoreRepositoryPort';
+import StoreRepositoryPort from './StoreRepository';
 
 export default class StoreService {
   private readonly storeRepository: StoreRepositoryPort;

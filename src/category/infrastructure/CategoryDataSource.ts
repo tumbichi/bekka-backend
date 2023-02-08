@@ -1,9 +1,9 @@
 import { NotFoundError } from '@prisma/client/runtime';
 import { CategoryEntity, prisma } from '../../db';
-import CategoryRepositoryPort from '../application/CategoryRepositoryPort';
+import CategoryRepository from '../application/CategoryRepository';
 import Category from '../domain/models/Category';
 
-export default class CategoryRepository implements CategoryRepositoryPort {
+export default class CategoryDataSource implements CategoryRepository {
   private categoryRepository = prisma.category;
 
   async getCategoryById(id: number) {

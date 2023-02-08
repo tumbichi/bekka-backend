@@ -1,19 +1,22 @@
 import { Router } from 'express';
+
 import CategoryService from '../category/application/CategoryService';
-import CategoryRepository from '../category/infrastructure/CategoryRepository';
+import CategoryDataSource from '../category/infrastructure/CategoryDataSource';
+
 import ProductService from '../product/application/ProductService';
 import ProductController from '../product/infrastructure/controllers/ProductController';
 import ProductRepository from '../product/infrastructure/repositories/ProductRepository';
+
 import StoreService from '../store/application/StoreService';
-import StoreRepository from '../store/infrastructure/StoreRepository';
+import StoreDataSource from '../store/infrastructure/StoreDataSource';
 
 const router = Router();
 
 const productController = new ProductController(
   new ProductService(
     new ProductRepository(),
-    new CategoryService(new CategoryRepository()),
-    new StoreService(new StoreRepository()),
+    new CategoryService(new CategoryDataSource()),
+    new StoreService(new StoreDataSource()),
   ),
 );
 

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { prisma } from '../../db';
 import CategoryService from '../application/CategoryService';
-import CategoryRepository from './CategoryRepository';
+import CategoryDataSource from './CategoryDataSource';
 
-const categoryService = new CategoryService(new CategoryRepository());
+const categoryService = new CategoryService(new CategoryDataSource());
 
 export const createCategory = async (req: Request, res: Response) => {
   const { title } = req.body;
