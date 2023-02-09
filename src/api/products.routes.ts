@@ -7,8 +7,8 @@ import ProductDataSource from '../Product/infrastructure/dataSource/ProductDataS
 import CategoryService from '../Category/application/service/CategoryService';
 import CategoryDataSource from '../Category/infrastructure/dataSource/CategoryDataSource';
 
-import StoreService from '../store/application/StoreService';
-import StoreDataSource from '../store/infrastructure/StoreDataSource';
+import StoreService from '../Store/application/StoreService';
+import StoreDataSource from '../Store/infrastructure/StoreDataSource';
 import { prisma } from '../db';
 
 const router = Router();

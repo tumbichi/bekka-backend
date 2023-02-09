@@ -1,6 +1,6 @@
 import Category from '../../../Category/domain/model/Category';
 import { CategoryEntity, prisma, ProductEntity, StoreEntity } from '../../../db';
-import Store from '../../../store/domain/models/Store';
+import Store from '../../../Store/domain/models/Store';
 import ProductRepository from '../../application/repository/ProductRepository';
 import Product from '../../domain/model/Product';
 

@@ -1,46 +1,12 @@
-import CategoryService from '../../../Category/application/service/CategoryService';
-import StoreService from '../../../store/application/StoreService';
-import CategoryNotExistException from '../../../Category/application/exeption/CategoryNotExistException';
-import InvalidProductPriceException from '../exeption/InvalidProductPriceException';
-import StoreNotExistException from '../exeption/StoreNotExistException';
+import ProductNotExistException from '../exeption/ProductNotExistException';
+import ProductRepositoryPort from '../repository/ProductRepository';
 import Product from '../../domain/model/Product';
 import ProductCreationDTO from '../../infrastructure/dto/ProductCreationDTO';
-import ProductRepositoryPort from '../repository/ProductRepository';
-import InvalidImageUrlException from '../exeption/InvalidImageUrlException';
-import validateUrl from '../../../Shared/validateUrl';
-import InvalidProductTitleException from '../exeption/InvalidProductTitleException';
-import ProductNotExistException from '../exeption/ProductNotExistException';
+import validateProductCreationDTO from '../validator/validateProductCreationDTO';
 
-const validateProductCreationDTO = (productDto: ProductCreationDTO) => {
-  if (!productDto.title || productDto.title.length < 2) {
-    const msg = productDto.title.length ? 'The product name must be at least two characters long' : undefined;
-    // return res.status(400).send('Product not valid');
-    throw new InvalidProductTitleException(msg);
-  }
+import StoreService from '../../../Store/application/StoreService';
 
-  if (!productDto.price || typeof productDto.price !== 'number') {
-    const msg = typeof productDto.price !== 'number' ? 'Price must be numerical' : undefined;
-    // return res.status(400).send('price not valid');
-    throw new InvalidProductPriceException(msg);
-  }
-
-  const isValidUrl = validateUrl(productDto.imageUrl);
-  if (!productDto.imageUrl || !isValidUrl) {
-    const msg = productDto.imageUrl ? 'The product image url is not a valid url' : undefined;
-    // return res.status(400).send('Product not valid');
-    throw new InvalidImageUrlException(msg);
-  }
-
-  if (!productDto.categoryId || typeof productDto.categoryId !== 'number') {
-    // return res.status(400).send('Category not valid');
-    throw new CategoryNotExistException();
-  }
-
-  if (!productDto.storeId || typeof productDto.storeId !== 'number') {
-    // return res.status(400).send('Category not valid');
-    throw new StoreNotExistException();
-  }
-};
+import CategoryService from '../../../Category/application/service/CategoryService';
 
 class ProductService {
   private productRepository: ProductRepositoryPort;
@@ -53,6 +19,17 @@ class ProductService {
     this.storeService = storeService;
   }
 
+  /**
+   * Create product service
+   * @throws {Error}
+   * @throws {ProductNotExistException}
+   * @throws {InvalidProductTitleException}
+   * @throws {InvalidProductPriceException}
+   * @throws {InvalidImageUrlException}
+   * @throws {CategoryNotExistException}
+   * @throws {StoreNotExistException}
+   *
+   */
   async createProduct(productDto: ProductCreationDTO): Promise<Product> {
     // if the validation fails throw with a business error
     validateProductCreationDTO(productDto);
