@@ -1,9 +1,13 @@
-import { prisma, StoreEntity } from '../../db';
+import { Prisma, StoreEntity } from '../../db';
 import StoreRepository from '../application/StoreRepository';
 import Store from '../domain/models/Store';
 
 export default class StoreDataSource implements StoreRepository {
-  private storeRepository = prisma.store;
+  private readonly storeRepository;
+
+  constructor(prismaRepository: Prisma.StoreDelegate<'rejectOnNotFound'>) {
+    this.storeRepository = prismaRepository;
+  }
 
   async getStoreById(id: number): Promise<Store> {
     try {
@@ -13,8 +17,6 @@ export default class StoreDataSource implements StoreRepository {
       console.error('ERROR_StoreRepository', e);
       throw new Error("Store doesn't exists");
     }
-
-    // return new Store([], );
   }
 
   private parseStoreEntityToDomain(storeEntity: StoreEntity): Store {

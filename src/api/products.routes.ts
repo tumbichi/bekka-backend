@@ -17,7 +17,7 @@ const productController = new ProductController(
   new ProductService(
     new ProductDataSource(),
     new CategoryService(new CategoryDataSource(prisma.category)),
-    new StoreService(new StoreDataSource()),
+    new StoreService(new StoreDataSource(prisma.store)),
   ),
 );
 

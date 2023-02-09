@@ -3,15 +3,15 @@ import CategoryRepository from '../../application/repository/CategoryRepository'
 import Category from '../../domain/model/Category';
 
 export default class CategoryDataSource implements CategoryRepository {
-  private readonly categoryRepository;
+  private readonly categoryClient;
 
-  constructor(prismaRepository: Prisma.CategoryDelegate<'rejectOnNotFound'>) {
-    this.categoryRepository = prismaRepository;
+  constructor(prismaClient: Prisma.CategoryDelegate<'rejectOnNotFound'>) {
+    this.categoryClient = prismaClient;
   }
 
   async createCategory(category: Category): Promise<Category> {
     try {
-      const categoryEntity = await this.categoryRepository.create({ data: { title: category.title } });
+      const categoryEntity = await this.categoryClient.create({ data: { title: category.title } });
       return this.parseCategoryEntityToDomain(categoryEntity);
     } catch (e) {
       console.error('[DataSource] Error on create category', e);
@@ -21,7 +21,7 @@ export default class CategoryDataSource implements CategoryRepository {
 
   async updateCategory(category: Partial<Category>): Promise<Category> {
     try {
-      const updatedProduct = await this.categoryRepository.update({
+      const updatedProduct = await this.categoryClient.update({
         data: {
           title: category.title,
         },
@@ -36,7 +36,7 @@ export default class CategoryDataSource implements CategoryRepository {
 
   async deleteCategory(id: number): Promise<Category> {
     try {
-      const categoryEntity = await this.categoryRepository.delete({
+      const categoryEntity = await this.categoryClient.delete({
         where: { id },
       });
       return this.parseCategoryEntityToDomain(categoryEntity);
@@ -48,7 +48,7 @@ export default class CategoryDataSource implements CategoryRepository {
 
   async getCategoryById(id: number) {
     try {
-      const categoryEntity = await this.categoryRepository.findUniqueOrThrow({
+      const categoryEntity = await this.categoryClient.findUniqueOrThrow({
         where: { id },
       });
 
@@ -61,7 +61,7 @@ export default class CategoryDataSource implements CategoryRepository {
 
   async getCategoryByTitle(title: string): Promise<Category | null> {
     try {
-      const existingCategory = await this.categoryRepository.findUnique({
+      const existingCategory = await this.categoryClient.findUnique({
         where: { title },
       });
 
@@ -74,7 +74,7 @@ export default class CategoryDataSource implements CategoryRepository {
 
   async getAllCategories() {
     try {
-      const categoriesEntity = await this.categoryRepository.findMany();
+      const categoriesEntity = await this.categoryClient.findMany();
 
       return categoriesEntity.map((categoryEntity) => this.parseCategoryEntityToDomain(categoryEntity));
     } catch (e) {
