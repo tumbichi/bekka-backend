@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { prisma } from '../../../db';
 import { deleteImageToCloudinary } from '../../../image/adapter/out/cloudinary.adapter';
 import ProductService from '../../application/service/ProductService';
-import ProductCreationDTO from '../dto/ProductCreationDTO';
+import ProductCreationDTO from '../../application/dto/ProductCreationDTO';
 
 export default class ProductController {
   private productService: ProductService;

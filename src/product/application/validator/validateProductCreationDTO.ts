@@ -1,9 +1,9 @@
+import ProductCreationDTO from '../dto/ProductCreationDTO';
 import InvalidImageUrlException from '../exeption/InvalidImageUrlException';
 import InvalidProductPriceException from '../exeption/InvalidProductPriceException';
 import InvalidProductTitleException from '../exeption/InvalidProductTitleException';
 import StoreNotExistException from '../exeption/StoreNotExistException';
 import CategoryNotExistException from '../../../Category/application/exeption/CategoryNotExistException';
-import ProductCreationDTO from '../../infrastructure/dto/ProductCreationDTO';
 
 import validateUrl from '../../../Shared/validateUrl';
 

@@ -1,7 +1,7 @@
+import ProductCreationDTO from '../dto/ProductCreationDTO';
 import ProductNotExistException from '../exeption/ProductNotExistException';
 import ProductRepositoryPort from '../repository/ProductRepository';
 import Product from '../../domain/model/Product';
-import ProductCreationDTO from '../../infrastructure/dto/ProductCreationDTO';
 import validateProductCreationDTO from '../validator/validateProductCreationDTO';
 
 import StoreService from '../../../Store/application/StoreService';
