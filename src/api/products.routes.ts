@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
-import CategoryService from '../Category/application/service/CategoryService';
-import CategoryDataSource from '../Category/infrastructure/dataSource/CategoryDataSource';
-
 import ProductService from '../Product/application/service/ProductService';
 import ProductController from '../Product/infrastructure/controller/ProductController';
 import ProductDataSource from '../Product/infrastructure/dataSource/ProductDataSource';
+
+import CategoryService from '../Category/application/service/CategoryService';
+import CategoryDataSource from '../Category/infrastructure/dataSource/CategoryDataSource';
 
 import StoreService from '../store/application/StoreService';
 import StoreDataSource from '../store/infrastructure/StoreDataSource';
