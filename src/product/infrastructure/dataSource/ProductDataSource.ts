@@ -1,10 +1,10 @@
-import Category from '../../../category/domain/models/Category';
+import Category from '../../../Category/domain/model/Category';
 import { CategoryEntity, prisma, ProductEntity, StoreEntity } from '../../../db';
 import Store from '../../../store/domain/models/Store';
-import ProductRepositoryPort from '../../application/ProductRepositoryPort';
-import Product from '../../domain/models/Product';
+import ProductRepository from '../../application/repository/ProductRepository';
+import Product from '../../domain/model/Product';
 
-class ProductRepository implements ProductRepositoryPort {
+class ProductDataSource implements ProductRepository {
   private productRepository = prisma.product;
 
   async createProduct(product: Product): Promise<Product> {
@@ -30,7 +30,7 @@ class ProductRepository implements ProductRepositoryPort {
       });
       // return res.status(201).json(product);
     } catch (e) {
-      console.error('ProductCreateError', e);
+      console.error('DataSource ProductCreateError', e);
       // res.status(500).json(e);
       throw new Error('Product create error');
     }
@@ -136,4 +136,4 @@ const parseProductEntityToDomain = (
     product.description !== null ? product.description : undefined,
   );
 
-export default ProductRepository;
+export default ProductDataSource;

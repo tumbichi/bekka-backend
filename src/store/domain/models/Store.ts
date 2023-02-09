@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import Product from '../../../product/domain/models/Product';
+import Product from '../../../Product/domain/model/Product';
 
 export default class Store {
   id?: number;

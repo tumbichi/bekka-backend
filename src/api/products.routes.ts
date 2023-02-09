@@ -1,21 +1,22 @@
 import { Router } from 'express';
 
-import CategoryService from '../category/application/CategoryService';
-import CategoryDataSource from '../category/infrastructure/CategoryDataSource';
+import CategoryService from '../Category/application/service/CategoryService';
+import CategoryDataSource from '../Category/infrastructure/dataSource/CategoryDataSource';
 
-import ProductService from '../product/application/ProductService';
-import ProductController from '../product/infrastructure/controllers/ProductController';
-import ProductRepository from '../product/infrastructure/repositories/ProductRepository';
+import ProductService from '../Product/application/service/ProductService';
+import ProductController from '../Product/infrastructure/controller/ProductController';
+import ProductDataSource from '../Product/infrastructure/dataSource/ProductDataSource';
 
 import StoreService from '../store/application/StoreService';
 import StoreDataSource from '../store/infrastructure/StoreDataSource';
+import { prisma } from '../db';
 
 const router = Router();
 
 const productController = new ProductController(
   new ProductService(
-    new ProductRepository(),
-    new CategoryService(new CategoryDataSource()),
+    new ProductDataSource(),
+    new CategoryService(new CategoryDataSource(prisma.category)),
     new StoreService(new StoreDataSource()),
   ),
 );

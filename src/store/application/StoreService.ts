@@ -1,4 +1,4 @@
-import StoreNotExistException from '../../product/domain/exeptions/StoreNotExistException';
+import StoreNotExistException from '../../Product/application/exeption/StoreNotExistException';
 import Store from '../domain/models/Store';
 import StoreRepositoryPort from './StoreRepository';
 

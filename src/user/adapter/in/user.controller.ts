@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../../../db';
-import validateEmail from '../../../shared/validateEmail';
+import validateEmail from '../../../Shared/validateEmail';
 
 export const createUserAdmin = async (req: Request, res: Response) => {
   const { email, name } = req.body;

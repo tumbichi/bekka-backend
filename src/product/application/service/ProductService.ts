@@ -1,15 +1,15 @@
-import CategoryService from '../../category/application/CategoryService';
-import StoreService from '../../store/application/StoreService';
-import CategoryNotExistException from '../../category/domain/exeptions/CategoryNotExistException';
-import InvalidProductPriceException from '../domain/exeptions/InvalidProductPriceException';
-import StoreNotExistException from '../domain/exeptions/StoreNotExistException';
-import Product from '../domain/models/Product';
-import ProductCreationDTO from '../infrastructure/dto/ProductCreationDTO';
-import ProductRepositoryPort from './ProductRepositoryPort';
-import InvalidImageUrlException from '../domain/exeptions/InvalidImageUrlException';
-import validateUrl from '../../shared/validateUrl';
-import InvalidProductTitleException from '../domain/exeptions/InvalidProductTitleException';
-import ProductNotExistException from '../domain/exeptions/ProductNotExistException';
+import CategoryService from '../../../Category/application/service/CategoryService';
+import StoreService from '../../../store/application/StoreService';
+import CategoryNotExistException from '../../../Category/application/exeption/CategoryNotExistException';
+import InvalidProductPriceException from '../exeption/InvalidProductPriceException';
+import StoreNotExistException from '../exeption/StoreNotExistException';
+import Product from '../../domain/model/Product';
+import ProductCreationDTO from '../../infrastructure/dto/ProductCreationDTO';
+import ProductRepositoryPort from '../repository/ProductRepository';
+import InvalidImageUrlException from '../exeption/InvalidImageUrlException';
+import validateUrl from '../../../Shared/validateUrl';
+import InvalidProductTitleException from '../exeption/InvalidProductTitleException';
+import ProductNotExistException from '../exeption/ProductNotExistException';
 
 const validateProductCreationDTO = (productDto: ProductCreationDTO) => {
   if (!productDto.title || productDto.title.length < 2) {
@@ -53,7 +53,7 @@ class ProductService {
     this.storeService = storeService;
   }
 
-  createProduct = async (productDto: ProductCreationDTO): Promise<Product> => {
+  async createProduct(productDto: ProductCreationDTO): Promise<Product> {
     // if the validation fails throw with a business error
     validateProductCreationDTO(productDto);
 
@@ -79,31 +79,31 @@ class ProductService {
       console.error('Error_ProductService', e);
       throw new Error('Product creation error');
     }
-  };
+  }
 
-  getProductById = async (id: number): Promise<Product> => {
+  async getProductById(id: number): Promise<Product> {
     try {
       return await this.productRepository.getProductById(id);
     } catch (e) {
       throw new ProductNotExistException();
     }
-  };
+  }
 
-  getProductsOnStock = async () => {
+  async getProductsOnStock() {
     try {
       return await this.productRepository.getProductsOnStock();
     } catch (e) {
       throw new Error('Error when try get products on stock');
     }
-  };
+  }
 
-  getAllProducts = async () => {
+  async getAllProducts() {
     try {
       return await this.productRepository.getAllProducts();
     } catch (e) {
       throw new Error('Error when try get all products');
     }
-  };
+  }
 }
 
 export default ProductService;
