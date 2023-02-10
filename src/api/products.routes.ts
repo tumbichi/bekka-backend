@@ -7,9 +7,11 @@ import ProductDataSource from '../Product/infrastructure/dataSource/ProductDataS
 import CategoryService from '../Category/application/service/CategoryService';
 import CategoryDataSource from '../Category/infrastructure/dataSource/CategoryDataSource';
 
-import StoreService from '../Store/application/StoreService';
-import StoreDataSource from '../Store/infrastructure/StoreDataSource';
+import StoreService from '../Store/application/service/StoreService';
+import StoreDataSource from '../Store/infrastructure/dataSource/StoreDataSource';
 import { prisma } from '../db';
+import UserService from '../User/application/service/UserService';
+import UserDataSource from '../User/infrastructure/dataSource/UserDataSource';
 
 const router = Router();
 
@@ -17,7 +19,7 @@ const productController = new ProductController(
   new ProductService(
     new ProductDataSource(),
     new CategoryService(new CategoryDataSource(prisma.category)),
-    new StoreService(new StoreDataSource(prisma.store)),
+    new StoreService(new StoreDataSource(prisma.store), new UserService(new UserDataSource(prisma.user))),
   ),
 );
 

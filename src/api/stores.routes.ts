@@ -1,8 +1,17 @@
 import { Router } from 'express';
-import { createStore } from '../Store/infrastructure/StoreController';
+import { prisma } from '../db';
+import StoreController from '../Store/infrastructure/controller/StoreController';
+import StoreService from '../Store/application/service/StoreService';
+import StoreDataSource from '../Store/infrastructure/dataSource/StoreDataSource';
+import UserService from '../User/application/service/UserService';
+import UserDataSource from '../User/infrastructure/dataSource/UserDataSource';
 
 const router = Router();
 
-router.post('/stores', createStore);
+const storeController = new StoreController(
+  new StoreService(new StoreDataSource(prisma.store), new UserService(new UserDataSource(prisma.user))),
+);
+
+router.post('/stores', storeController.createStore);
 
 export default router;

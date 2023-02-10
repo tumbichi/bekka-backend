@@ -19,10 +19,10 @@ export default class CategoryController {
       .catch((error) => {
         switch (error.name) {
           case 'InvalidCategoryTitleException': {
-            return res.status(400).send(error.message);
+            return res.status(400).json({ message: error.message });
           }
           case 'CategoryAlreadyExistException': {
-            return res.status(404).send(error.message);
+            return res.status(404).json({ message: error.message });
           }
           default: {
             const jsonResponse =
@@ -44,7 +44,7 @@ export default class CategoryController {
       .catch((error) => {
         switch (error.name) {
           case 'InvalidCategoryTitleException': {
-            return res.status(400).send(error.message);
+            return res.status(400).json({ message: error.message });
           }
           default: {
             const jsonResponse =

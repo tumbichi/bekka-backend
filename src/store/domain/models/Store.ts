@@ -3,12 +3,12 @@ import Product from '../../../Product/domain/model/Product';
 
 export default class Store {
   id?: number;
-  products?: Product[];
   user?: User;
+  products?: Product[];
 
-  constructor(id?: number, products?: Product[], user?: User) {
+  constructor(id?: number, user?: User, products?: Product[]) {
     this.id = id;
-    this.products = products;
     this.user = user;
+    this.products = products;
   }
 }

@@ -4,7 +4,7 @@ import ProductRepositoryPort from '../repository/ProductRepository';
 import Product from '../../domain/model/Product';
 import validateProductCreationDTO from '../validator/validateProductCreationDTO';
 
-import StoreService from '../../../Store/application/StoreService';
+import StoreService from '../../../Store/application/service/StoreService';
 
 import CategoryService from '../../../Category/application/service/CategoryService';
 
