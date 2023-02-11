@@ -19,15 +19,6 @@ module.exports = {
     'import/no-anonymous-default-export': 'warn',
     'import/no-import-module-exports': 'off',
     'import/no-extraneous-dependencies': 'off',
-    'react/jsx-sort-props': [
-      'warn',
-      {
-        callbacksLast: true,
-        shorthandFirst: true,
-        noSortAlphabetically: false,
-        reservedFirst: true,
-      },
-    ],
   },
   settings: {
     'import/resolver': {
