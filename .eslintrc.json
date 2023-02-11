@@ -6,12 +6,10 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended",
-        "plugin:import/recommended"
+        "plugin:prettier/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "plugins": [
-        "import",
         "@typescript-eslint",
         "prettier"
     ],
@@ -23,19 +21,5 @@
         ],
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-explicit-any": "error"
-    },
-    "settings": {
-        "import/resolver": {
-            "node": {
-                "extensions": [
-                    ".js",
-                    ".ts"
-                ],
-                "moduleDirectory": [
-                    "node_modules",
-                    "src/"
-                ]
-            }
-        }
     }
 }
