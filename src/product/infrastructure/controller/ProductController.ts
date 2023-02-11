@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { prisma } from '../../../db';
-import { deleteImageToCloudinary } from '../../../image/adapter/out/cloudinary.adapter';
+import CloudinaryAdapter from '../../../Image/infrastructure/adapter/CloudinaryAdapter';
 import ProductService from '../../application/service/ProductService';
 import ProductCreationDTO from '../../application/dto/ProductCreationDTO';
 
@@ -48,7 +48,7 @@ export default class ProductController {
 
     if (image) {
       try {
-        await deleteImageToCloudinary(image.publicId);
+        await new CloudinaryAdapter().deleteImage(image.publicId);
         const imageDeleted = await prisma.image.delete({
           where: { publicId: image.publicId },
         });

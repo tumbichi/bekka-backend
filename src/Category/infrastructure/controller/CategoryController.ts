@@ -91,7 +91,6 @@ export default class CategoryController {
           default: {
             const jsonResponse =
               error?.message && typeof error.message === 'string' ? { message: error.message } : error;
-
             return res.status(500).json(jsonResponse);
           }
         }
