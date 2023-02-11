@@ -1,11 +1,11 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import categoriesRoutes from './api/categories.routes';
-import usersRoutes from './api/users.routes';
-import storesRoutes from './api/stores.routes';
-import productsRoutes from './api/products.routes';
-import imagesRoutes from './api/images.routes';
+import categoriesRoutes from './Routes/categories.routes';
+import usersRoutes from './Routes/users.routes';
+import storesRoutes from './Routes/stores.routes';
+import productsRoutes from './Routes/products.routes';
+import imagesRoutes from './Routes/images.routes';
 
 const app = express();
 
