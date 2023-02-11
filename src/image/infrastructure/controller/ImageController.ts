@@ -5,6 +5,7 @@ import ImageService from '../../application/service/ImageService';
 // TODO: Type fields and files that extract from resquest
 const extractFilesFromRequest = (req: Request): Promise<{ fields: any; files: any }> =>
   new Promise((resolve, reject) => {
+    console.log('req', req);
     const form = new IncomingForm({
       multiples: false,
     });
