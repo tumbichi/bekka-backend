@@ -1,6 +1,6 @@
 import Role from './Role';
 import InvalidEmailException from '../exception/InvalidEmailException';
-import validateEmail from '~/Shared/validateEmail';
+import validateEmail from 'Shared/validateEmail';
 
 /**
  * User model
