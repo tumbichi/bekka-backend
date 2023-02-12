@@ -81,4 +81,31 @@ InvalidEmailException (email invalido), InvalidCategoryTitleException (titulo de
 * #### adapter: Accede a apis de terceros y hace la implmentacion del contrato de adapter
 
 
+## Subir cambios
 
+Para poder subir cambios al repositorio es necesario utilizar los siguientes comandos.
+
+
+```bash
+git checkout -b [flag]/your_branch
+git add .
+git commit -m "[flag]: Descripcion simple de que es lo que hace el commit"
+git push origin "[flag]/your_branch"
+```
+
+* Luego crear un PR apuntando a main, checkear que las gh action esten corriendo y que tienen un approve.
+
+
+```
+## Como hacer un buen commit
+
+Cada cada commit deberá de llevar alguna bandersa que distinga lo que se realizo en el commit. Debe utilizarse las siguientes banderas. 
+Es recomendado utilizar un icono como referencia visual de la bandera que se esa utilizando. 
+  Ejemplo de banderas (*flags*).
+  - `f.-`  **feat**: Ha añadido una nueva freature (modulo, o la salida completa de una característica) 
+  - `F.-`  **fix**: Ha realizado un cambio que repará un Bug
+  - `d.-`  **docs**: Ha realizado cambios en la 
+  - `s.-`  **style**: Ha realizado cambios que representen estilos 
+  - `r.-`  **refactor**:Ha realizado cambios de codigo que no corrigieron ningún Bug o añadieron una feature
+  - `t.-`  **test**:  Todo a aquel cambio que sea modo de prueba
+  - `c.-`  **chore**: Ha actualizado un tarea contruida previamneto, configuracion en el package manager, etc.
