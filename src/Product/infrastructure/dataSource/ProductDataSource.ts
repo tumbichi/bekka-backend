@@ -123,14 +123,14 @@ class ProductDataSource implements ProductRepository {
     }
   }
 
-  async getProductById(id: number): Promise<Product> {
+  async getProductById(id: number): Promise<Product | null> {
     try {
-      const productEntity = await this.productRepository.findUniqueOrThrow({
+      const productEntity = await this.productRepository.findUnique({
         where: { id },
         include: { category: true, store: true },
       });
 
-      return parseProductEntityToDomain(productEntity);
+      return productEntity ? parseProductEntityToDomain(productEntity) : null;
     } catch (e) {
       console.error('ErrorRepository_getProductById', e);
       console.error('[ProductRepository] Get product by id failed: ', e);

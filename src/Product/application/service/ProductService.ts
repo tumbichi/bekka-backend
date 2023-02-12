@@ -66,10 +66,21 @@ class ProductService {
     }
   }
 
+  /**
+   * Edit product service
+   * @throws {Error}
+   *
+   */
   async editProduct(partialProduct: Partial<ProductCreationDTO>, productId: number): Promise<Product> {
     return await this.productRepository.editProduct(partialProduct, productId);
   }
 
+  /**
+   * Delete product service
+   * @throws {Error}
+   * @throws {ProductNotExistException}
+   *
+   */
   async deleteProduct(productId: number): Promise<Product> {
     let productExist;
 
@@ -94,14 +105,25 @@ class ProductService {
     return await this.productRepository.deleteProductById(productId);
   }
 
+  /**
+   * Get product by id service
+   * @throws {Error}
+   * @throws {ProductNotExistException}
+   *
+   */
   async getProductById(id: number): Promise<Product> {
-    try {
-      return await this.productRepository.getProductById(id);
-    } catch (e) {
-      throw new ProductNotExistException();
-    }
+    const productFinded = await this.productRepository.getProductById(id);
+
+    if (productFinded === null) throw new ProductNotExistException();
+
+    return productFinded;
   }
 
+  /**
+   * Get products on stock service
+   * @throws {Error}
+   *
+   */
   async getProductsOnStock() {
     try {
       return await this.productRepository.getProductsOnStock();
@@ -110,6 +132,11 @@ class ProductService {
     }
   }
 
+  /**
+   * Get all products service
+   * @throws {Error}
+   *
+   */
   async getAllProducts() {
     try {
       return await this.productRepository.getAllProducts();
