@@ -1,4 +1,4 @@
-import Category from '../../../Category/domain/model/Category';
+import Category from '../../../category/domain/model/Category';
 import Store from '../../../Store/domain/models/Store';
 
 class Product {
