@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-import { prisma } from '../../../db';
-import CloudinaryAdapter from '../../../Image/infrastructure/adapter/CloudinaryAdapter';
 import ProductService from '../../application/service/ProductService';
 import ProductCreationDTO from '../../application/dto/ProductCreationDTO';
 

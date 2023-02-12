@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import CategoryController from '../Category/infrastructure/controller/CategoryController';
-import CategoryService from '../Category/application/service/CategoryService';
-import CategoryDataSource from '../Category/infrastructure/dataSource/CategoryDataSource';
+import CategoryController from '../app/Category/infrastructure/controller/CategoryController';
+import CategoryService from '../app/Category/application/service/CategoryService';
+import CategoryDataSource from '../app/Category/infrastructure/dataSource/CategoryDataSource';
 import { prisma } from '../db';
 
 const router = Router();
