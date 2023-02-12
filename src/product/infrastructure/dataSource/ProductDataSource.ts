@@ -1,4 +1,4 @@
-import Category from '../../../category/domain/model/Category';
+import Category from '../../../Category/domain/model/Category';
 import { CategoryEntity, prisma, ProductEntity, StoreEntity } from '../../../db';
 import Store from '../../../Store/domain/models/Store';
 import ProductRepository from '../../application/repository/ProductRepository';

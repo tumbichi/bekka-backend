@@ -6,8 +6,8 @@ import validateProductCreationDTO from '../validator/validateProductCreationDTO'
 
 import StoreService from '../../../Store/application/service/StoreService';
 
-import CategoryService from '../../../category/application/service/CategoryService';
-import ImageService from 'Image/application/service/ImageService';
+import CategoryService from '../../../Category/application/service/CategoryService';
+import ImageService from '../../../Image/application/service/ImageService';
 
 class ProductService {
   private productRepository: ProductRepositoryPort;

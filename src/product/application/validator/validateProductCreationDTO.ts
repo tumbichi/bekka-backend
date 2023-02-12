@@ -3,7 +3,7 @@ import InvalidImageUrlException from '../exeption/InvalidImageUrlException';
 import InvalidProductPriceException from '../exeption/InvalidProductPriceException';
 import InvalidProductTitleException from '../exeption/InvalidProductTitleException';
 import StoreNotExistException from '../exeption/StoreNotExistException';
-import CategoryNotExistException from '../../../category/application/exeption/CategoryNotExistException';
+import CategoryNotExistException from '../../../Category/application/exeption/CategoryNotExistException';
 
 import validateUrl from '../../../Shared/validateUrl';
 
