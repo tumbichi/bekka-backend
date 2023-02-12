@@ -12,6 +12,9 @@ import StoreDataSource from '../Store/infrastructure/dataSource/StoreDataSource'
 import { prisma } from '../db';
 import UserService from '../User/application/service/UserService';
 import UserDataSource from '../User/infrastructure/dataSource/UserDataSource';
+import ImageService from '../Image/application/service/ImageService';
+import ImageDataSource from '../Image/infrastructure/dataSource/ImageDataSource';
+import CloudinaryAdapter from '../Image/infrastructure/adapter/CloudinaryAdapter';
 
 const router = Router();
 
@@ -20,6 +23,7 @@ const productController = new ProductController(
     new ProductDataSource(),
     new CategoryService(new CategoryDataSource(prisma.category)),
     new StoreService(new StoreDataSource(prisma.store), new UserService(new UserDataSource(prisma.user))),
+    new ImageService(new ImageDataSource(prisma.image), new CloudinaryAdapter()),
   ),
 );
 

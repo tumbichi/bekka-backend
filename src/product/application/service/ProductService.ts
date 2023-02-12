@@ -7,16 +7,24 @@ import validateProductCreationDTO from '../validator/validateProductCreationDTO'
 import StoreService from '../../../Store/application/service/StoreService';
 
 import CategoryService from '../../../Category/application/service/CategoryService';
+import ImageService from 'Image/application/service/ImageService';
 
 class ProductService {
   private productRepository: ProductRepositoryPort;
   private categoryService: CategoryService;
   private storeService: StoreService;
+  private imageService: ImageService;
 
-  constructor(productRepository: ProductRepositoryPort, categoryService: CategoryService, storeService: StoreService) {
+  constructor(
+    productRepository: ProductRepositoryPort,
+    categoryService: CategoryService,
+    storeService: StoreService,
+    imageService: ImageService,
+  ) {
     this.productRepository = productRepository;
     this.categoryService = categoryService;
     this.storeService = storeService;
+    this.imageService = imageService;
   }
 
   /**
@@ -56,6 +64,34 @@ class ProductService {
       console.error('Error_ProductService', e);
       throw new Error('Product creation error');
     }
+  }
+
+  async editProduct(partialProduct: Partial<ProductCreationDTO>, productId: number): Promise<Product> {
+    return await this.productRepository.editProduct(partialProduct, productId);
+  }
+
+  async deleteProduct(productId: number): Promise<Product> {
+    let productExist;
+
+    try {
+      productExist = await this.productRepository.getProductById(productId);
+    } catch (error) {
+      throw new ProductNotExistException();
+    }
+
+    if (!productExist) throw new ProductNotExistException();
+
+    const image = await this.imageService.getImageBySecureUrl(productExist.imageUrl);
+
+    if (image) {
+      try {
+        await this.imageService.deleteImage(image.publicId);
+      } catch (e) {
+        console.error('[ProductService] delete product: cannot delete image');
+      }
+    }
+
+    return await this.productRepository.deleteProductById(productId);
   }
 
   async getProductById(id: number): Promise<Product> {

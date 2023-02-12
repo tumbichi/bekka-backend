@@ -60,9 +60,30 @@ class ProductDataSource implements ProductRepository {
     }
   }
 
-  async editProduct(product: Partial<Product>): Promise<Product> {
-    console.log('product :>> ', product);
-    return Promise.resolve({} as Product);
+  async editProduct(product: Partial<Product>, productId: number): Promise<Product> {
+    try {
+      const productEntity = await this.productRepository.update({
+        data: {
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          category: { connect: { id: product.category?.id } },
+          store: { connect: { id: product.store?.id } },
+          imageUrl: product.imageUrl,
+          active: product.active,
+          count: product.count,
+          stock: product.stock,
+        },
+        where: {
+          id: productId,
+        },
+        include: { category: true, store: true },
+      });
+      return parseProductEntityToDomain(productEntity);
+    } catch (error) {
+      console.error('[ProductRepository] Update product by id failed: ', error);
+      throw new Error('Failed updating product');
+    }
   }
 
   async getAllProducts(): Promise<Product[]> {
@@ -83,8 +104,8 @@ class ProductDataSource implements ProductRepository {
 
       return products;
     } catch (e) {
-      console.error('ErrorRepository_getProducts', e);
-      throw e;
+      console.error('[ProductRepository] Get all products failed: ', e);
+      throw new Error('Failed getting all products');
     }
   }
 
@@ -96,9 +117,9 @@ class ProductDataSource implements ProductRepository {
       });
 
       return parseProductEntityToDomain(productDeleted);
-    } catch (e) {
-      console.error('ErrorRepository_deleteProductById', e);
-      throw e;
+    } catch (error) {
+      console.error('[ProductRepository] Delete product by id failed: ', error);
+      throw new Error('Failed deleting product');
     }
   }
 
@@ -112,7 +133,8 @@ class ProductDataSource implements ProductRepository {
       return parseProductEntityToDomain(productEntity);
     } catch (e) {
       console.error('ErrorRepository_getProductById', e);
-      throw e;
+      console.error('[ProductRepository] Get product by id failed: ', e);
+      throw new Error('Failed geting product by id');
     }
   }
 }

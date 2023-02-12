@@ -62,4 +62,8 @@ export default class ImageService {
     console.log('[ImageService] Deleted image from database', deletedFromDatabase);
     console.log('[ImageService] Delete image end...');
   };
+
+  getImageBySecureUrl = async (secureUrl: string): Promise<Image | null> => {
+    return await this.imageRepository.getImageBySecureUrl(secureUrl);
+  };
 }

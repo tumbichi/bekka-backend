@@ -17,17 +17,19 @@ export default class ProductController {
     this.productService
       .createProduct({ title, description, price, categoryId, storeId, imageUrl })
       .then((product) => res.status(201).json(product))
-      .catch((e: Error) => {
-        switch (e.name) {
+      .catch((error: Error) => {
+        switch (error.name) {
           case 'InvalidProductTitleException':
           case 'InvalidProductPriceException':
           case 'InvalidImageUrlException':
           case 'StoreNotExistException':
           case 'CategoryNotExistException': {
-            return res.status(400).json({ message: e.message });
+            return res.status(400).json({ message: error.message });
           }
           default: {
-            return res.status(500).json({ error: e });
+            const jsonResponse =
+              error?.message && typeof error.message === 'string' ? { message: error.message } : error;
+            return res.status(500).json(jsonResponse);
           }
         }
       });
@@ -36,61 +38,42 @@ export default class ProductController {
   deleteProduct = async (req: Request, res: Response) => {
     const { id } = req.params;
 
-    const product = await prisma.product.findUnique({
-      where: { id: Number.parseInt(id) },
-    });
-
-    if (!product) return res.status(404).send("Product doesn't exists");
-
-    const image = await prisma.image.findUnique({
-      where: { secure_url: product.imageUrl },
-    });
-
-    if (image) {
-      try {
-        await new CloudinaryAdapter().deleteImage(image.publicId);
-        const imageDeleted = await prisma.image.delete({
-          where: { publicId: image.publicId },
-        });
-        console.log('Image deleted: ', imageDeleted);
-      } catch (e) {
-        console.error('delete image error', e);
-      }
-    }
-
-    try {
-      const productDeleted = await prisma.product.delete({
-        where: { id: product.id },
+    this.productService
+      .deleteProduct(Number.parseInt(id))
+      .then((deletedProduct) => {
+        res.status(200).json(deletedProduct);
+      })
+      .catch((error) => {
+        switch (error.name) {
+          case 'ProductNotExistException': {
+            return res.status(404).json({ message: error.message });
+          }
+          default: {
+            const jsonResponse =
+              error?.message && typeof error.message === 'string' ? { message: error.message } : error;
+            return res.status(500).json(jsonResponse);
+          }
+        }
       });
-      console.log('product delected', productDeleted);
-      return res.status(200).send(product);
-    } catch (e) {
-      console.log('product delete error', e);
-      return res.status(404).send("Product doesn't exists");
-    }
   };
 
   updateProduct = async (req: Request, res: Response) => {
     const { id, title, description, price, categoryId, storeId, imageUrl } = req.body;
 
-    try {
-      const updatedProduct = await prisma.product.update({
-        data: {
-          title,
-          description,
-          price,
-          categoryId,
-          storeId,
-          imageUrl,
-        },
-        where: { id },
+    this.productService
+      .editProduct({ title, description, price, categoryId, storeId, imageUrl }, parseInt(id))
+      .then((updatedProduct) => {
+        return res.status(200).json(updatedProduct);
+      })
+      .catch((error) => {
+        switch (error.name) {
+          default: {
+            const jsonResponse =
+              error?.message && typeof error.message === 'string' ? { message: error.message } : error;
+            return res.status(500).json(jsonResponse);
+          }
+        }
       });
-
-      return res.status(200).json(updatedProduct);
-    } catch (e) {
-      console.error('updated product error', e);
-      return res.status(500).json(e);
-    }
   };
 
   getProductById = (req: Request, res: Response) => {
@@ -99,12 +82,14 @@ export default class ProductController {
     this.productService
       .getProductById(Number.parseInt(id))
       .then((productFinded) => res.status(200).json(productFinded))
-      .catch((e) => {
-        switch (e.name) {
+      .catch((error) => {
+        switch (error.name) {
           case 'ProductNotExistException':
-            return res.status(404).json({ message: e.message });
+            return res.status(404).json({ message: error.message });
           default: {
-            return res.status(500).json(e);
+            const jsonResponse =
+              error?.message && typeof error.message === 'string' ? { message: error.message } : error;
+            return res.status(500).json(jsonResponse);
           }
         }
       });
@@ -114,9 +99,9 @@ export default class ProductController {
     this.productService
       .getAllProducts()
       .then((products) => res.status(200).json(products))
-      .catch((e) => {
-        console.log('ErrorController_getAllProductOnStock', e);
-        return res.status(500).json(e);
+      .catch((error) => {
+        const jsonResponse = error?.message && typeof error.message === 'string' ? { message: error.message } : error;
+        return res.status(500).json(jsonResponse);
       });
   };
 
@@ -124,9 +109,9 @@ export default class ProductController {
     this.productService
       .getProductsOnStock()
       .then((products) => res.status(200).json(products))
-      .catch((e) => {
-        console.log('ErrorController_getAllProductOnStock', e);
-        return res.status(500).json(e);
+      .catch((error) => {
+        const jsonResponse = error?.message && typeof error.message === 'string' ? { message: error.message } : error;
+        return res.status(500).json(jsonResponse);
       });
   };
 }

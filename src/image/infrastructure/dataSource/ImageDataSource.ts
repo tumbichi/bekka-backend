@@ -8,6 +8,15 @@ export default class ImageDataSource implements ImageRepository {
   constructor(prismaClient: Prisma.ImageDelegate<'rejectOnNotFound'>) {
     this.imageClient = prismaClient;
   }
+  getImageBySecureUrl = async (secureUrl: string): Promise<Image | null> => {
+    try {
+      const imageEntity = await this.imageClient.findUnique({ where: { secure_url: secureUrl } });
+      return imageEntity ? this.parseImageEntityToDomain(imageEntity) : null;
+    } catch (error) {
+      console.log('[ImageDataSource] Get image by secure url ', error);
+      throw new Error('Failed when try get image by secure url');
+    }
+  };
 
   createImage = async (image: Image): Promise<Image> => {
     try {
