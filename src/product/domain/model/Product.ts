@@ -1,5 +1,5 @@
 import Category from '../../../category/domain/model/Category';
-import Store from '../../../Store/domain/models/Store';
+import Store from '../../../store/domain/models/Store';
 
 class Product {
   title: string;

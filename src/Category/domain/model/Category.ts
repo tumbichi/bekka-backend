@@ -1,4 +1,4 @@
-import InvalidCategoryTitleException from '../exeption/InvalidCategoryTitleException';
+import InvalidCategoryTitleException from '../exception/InvalidCategoryTitleException';
 
 export default class Category {
   title: string;
