@@ -1,4 +1,4 @@
-import { CategoryEntity, prisma, ProductEntity, StoreEntity } from '../../../../db';
+import { CategoryEntity, prisma, ProductEntity, StoreEntity } from '../../../db';
 import ProductRepository from '../../application/repository/ProductRepository';
 import Product from '../../domain/model/Product';
 import Category from '../../../Category/domain/model/Category';

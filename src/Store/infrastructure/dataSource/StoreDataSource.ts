@@ -1,4 +1,4 @@
-import { Prisma, StoreEntity } from '../../../../db';
+import { Prisma, StoreEntity } from '../../../db';
 import StoreRepository from '../../application/repository/StoreRepository';
 import Store from '../../domain/models/Store';
 
