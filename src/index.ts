@@ -1,5 +1,5 @@
-import app from "./app";
-import { prisma } from "./db";
+import app from './app';
+import { prisma } from './db';
 
 async function main() {
   app.listen(process.env.PORT || 8080, () => {

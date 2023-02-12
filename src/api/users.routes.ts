@@ -1,8 +1,13 @@
 import { Router } from 'express';
-import { createUserAdmin } from '../user/adapter/in/user.controller';
+import UserController from '../User/infrastructure/controller/UserController';
+import UserService from '../User/application/service/UserService';
+import UserDataSource from '../User/infrastructure/dataSource/UserDataSource';
+import { prisma } from '../db';
 
 const router = Router();
 
-router.post('/users/admin', createUserAdmin);
+const userController = new UserController(new UserService(new UserDataSource(prisma.user)));
+
+router.post('/users/admin', userController.createUserAdmin);
 
 export default router;
