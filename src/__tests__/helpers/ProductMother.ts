@@ -1,4 +1,4 @@
-import Product from '../../app/Product/domain/model/Product';
+import Product from '../../Product/domain/model/Product';
 
 export default class ProductMother {
   public static createValidProduct(id: number) {

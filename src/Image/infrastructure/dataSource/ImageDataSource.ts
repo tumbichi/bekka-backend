@@ -1,4 +1,4 @@
-import { ImageEntity, Prisma } from '../../../../db';
+import { ImageEntity, Prisma } from '../../../db';
 import ImageRepository from '../../application/repository/ImageRepository';
 import Image from '../../domain/model/Image';
 

@@ -1,4 +1,4 @@
-import { CategoryEntity, Prisma } from '../../../../db';
+import { CategoryEntity, Prisma } from '../../../db';
 import CategoryRepository from '../../application/repository/CategoryRepository';
 import Category from '../../domain/model/Category';
 

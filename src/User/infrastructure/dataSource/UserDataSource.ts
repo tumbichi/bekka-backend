@@ -1,4 +1,4 @@
-import { Prisma, UserEntity } from '../../../../db';
+import { Prisma, UserEntity } from '../../../db';
 import UserRepository from '../../application/repository/UserRepository';
 import Role from '../../domain/model/Role';
 import User from '../../domain/model/User';

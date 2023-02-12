@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { prisma } from '../db';
 
-import UserController from '../app/User/infrastructure/controller/UserController';
-import UserService from '../app/User/application/service/UserService';
-import UserDataSource from '../app/User/infrastructure/dataSource/UserDataSource';
+import UserController from '../User/infrastructure/controller/UserController';
+import UserService from '../User/application/service/UserService';
+import UserDataSource from '../User/infrastructure/dataSource/UserDataSource';
 
 const router = Router();
 
